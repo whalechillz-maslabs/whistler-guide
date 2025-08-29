@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whistler 실제 사용 비용 내역</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .expense-summary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .total-amount {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .currency {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .expense-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .expense-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .expense-table td {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            font-size: 1rem;
+        }
+
+        .expense-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.2rem;
+        }
+
+        .category {
+            background: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .card-transactions {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .card-transactions h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .transaction-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .merchant {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        .transaction-amount {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.3rem;
+        }
+
+        .transaction-details {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .notes {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+
+        .notes h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .notes ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notes li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .notes li:last-child {
+            border-bottom: none;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .expense-table {
+                font-size: 0.9rem;
+            }
+            
+            .expense-table th,
+            .expense-table td {
+                padding: 15px 10px;
+            }
+            
+            .transaction-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏔️ Whistler 실제 사용 비용 내역</h1>
+            <p>2024년 8월 29일 실제 사용한 모든 비용을 정리한 내역</p>
+        </div>
+
+        <div class="content">
+            <div class="expense-summary">
+                <h2>총 사용 비용</h2>
+                <div class="total-amount">CAD 340.84</div>
+                <div class="currency">(약 ₩341,000)</div>
+            </div>
+
+            <table class="expense-table">
+                <thead>
+                    <tr>
+                        <th>카테고리</th>
+                        <th>항목</th>
+                        <th>금액</th>
+                        <th>비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="category">🎫 이용권</span></td>
+                        <td>스키스쿨 반나절권</td>
+                        <td class="amount">CAD 94.50</td>
+                        <td>3:30-7:30 반나절권</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category">🛡️ 보호장비</span></td>
+                        <td>서밋스포츠 자전거 보호장비 렌탈</td>
+                        <td class="amount">CAD 189.00</td>
+                        <td>헬멧, 장갑, 무릎, 팔꿈치 보호대</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category">🛍️ 기념품</span></td>
+                        <td>에센셜 블랙콤 모자</td>
+                        <td class="amount">CAD 44.75</td>
+                        <td>기념품 구매</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category">🛍️ 기념품</span></td>
+                        <td>에센셜 블랙콤 스티커</td>
+                        <td class="amount">CAD 5.25</td>
+                        <td>기념품 구매</td>
+                    </tr>
+                    <tr>
+                        <td><span class="category">🅿️ 주차</span></td>
+                        <td>데이롯 주차장</td>
+                        <td class="amount">CAD 7.34</td>
+                        <td>일일 주차비</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="card-transactions">
+                <h3>💳 현대카드 해외승인 내역 (8월 29일)</h3>
+                
+                <div class="transaction-item">
+                    <div class="transaction-header">
+                        <span class="merchant">ESSENTIALLYBLACKCOMB</span>
+                        <span class="transaction-amount">CAD 44.75</span>
+                    </div>
+                    <div class="transaction-details">
+                        📅 8/29 10:45 | 🕐 알림: 오후 6:45 | 모자 및 스티커 구매
+                    </div>
+                </div>
+
+                <div class="transaction-item">
+                    <div class="transaction-header">
+                        <span class="merchant">ESSENTIALLYBLACKCOMB</span>
+                        <span class="transaction-amount">CAD 5.25</span>
+                    </div>
+                    <div class="transaction-details">
+                        📅 8/29 8:22 | 🕐 알림: 오후 4:22 | 기념품 추가 구매
+                    </div>
+                </div>
+
+                <div class="transaction-item">
+                    <div class="transaction-header">
+                        <span class="merchant">SUMMITSPORT</span>
+                        <span class="transaction-amount">CAD 189.00</span>
+                    </div>
+                    <div class="transaction-details">
+                        📅 8/29 7:06 | 🕐 알림: 오후 3:06 | 헬멧, 장갑, 무릎, 팔꿈치 보호대 렌탈
+                    </div>
+                </div>
+
+                <div class="transaction-item">
+                    <div class="transaction-header">
+                        <span class="merchant">SKISCHOOLCREEKSIDE</span>
+                        <span class="transaction-amount">CAD 94.50</span>
+                    </div>
+                    <div class="transaction-details">
+                        📅 8/29 6:43 | 🕐 알림: 오후 2:43 | 스키스쿨 3:30-7:30 반나절권
+                    </div>
+                </div>
+
+                <div class="transaction-item">
+                    <div class="transaction-header">
+                        <span class="merchant">DAYLOTSPARKING</span>
+                        <span class="transaction-amount">CAD 7.34</span>
+                    </div>
+                    <div class="transaction-details">
+                        📅 8/29 6:19 | 🕐 알림: 오후 2:19 | 주차장 이용료
+                    </div>
+                </div>
+            </div>
+
+            <div class="notes">
+                <h3>📝 주요 비용 분석</h3>
+                <ul>
+                    <li>🛡️ <strong>보호장비 렌탈</strong>: CAD 189.00 (가장 큰 비용, 안전을 위한 필수)</li>
+                    <li>🎫 <strong>스키스쿨 반나절권</strong>: CAD 94.50 (3:30-7:30 이용권)</li>
+                    <li>🛍️ <strong>기념품</strong>: CAD 50.00 (모자 + 스티커)</li>
+                    <li>🅿️ <strong>주차비</strong>: CAD 7.34 (합리적인 가격)</li>
+                </ul>
+            </div>
+
+            <div class="notes">
+                <h3>💡 비용 절약 팁</h3>
+                <ul>
+                    <li>🎫 <strong>이용권</strong>: 온라인 사전 예약으로 할인 혜택 받기</li>
+                    <li>🛡️ <strong>보호장비</strong>: 개인 장비 소지 시 렌탈 비용 절약 (헬멧, 장갑, 보호대)</li>
+                    <li>🛍️ <strong>기념품</strong>: 온라인 구매로 리조트 내 할인 혜택 활용</li>
+                    <li>🅿️ <strong>주차</strong>: 무료 셔틀버스 이용으로 주차비 절약</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 Whistler Mountain Biking Guide | 실제 사용 비용 내역</p>
+            <p>💳 현대카드 해외승인 내역 기반 | 📅 2024년 8월 29일</p>
+            <p style="margin-top: 1rem;">
+                <a href="index.html" style="color: #20c997; text-decoration: none; font-weight: 600;">🏠 메인 페이지로 돌아가기</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
