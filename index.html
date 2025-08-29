@@ -12,9 +12,17 @@
         h1 { font-size: 2.5rem; margin-bottom: 1rem; }
         .subtitle { font-size: 1.2rem; opacity: 0.9; }
         nav { background: #f8f9fa; padding: 1rem 0; border-bottom: 1px solid #e9ecef; }
+        .expense-summary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 15px; margin: 2rem 0; text-align: center; }
+        .expense-summary h3 { margin-bottom: 1rem; font-size: 1.5rem; }
+        .expense-amount { font-size: 2.5rem; font-weight: bold; margin: 1rem 0; }
+        .expense-breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .expense-item { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 10px; }
+        .expense-item strong { display: block; margin-bottom: 0.5rem; }
         nav ul { list-style: none; display: flex; justify-content: center; gap: 2rem; }
         nav a { text-decoration: none; color: #495057; font-weight: 500; transition: color 0.3s; }
         nav a:hover { color: #667eea; }
+        .expense-link { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 0.5rem 1rem; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .expense-link:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3); color: white; }
         main { padding: 3rem 0; }
         section { margin-bottom: 3rem; }
         h2 { color: #495057; margin-bottom: 1.5rem; font-size: 2rem; border-bottom: 2px solid #667eea; padding-bottom: 0.5rem; }
@@ -43,11 +51,50 @@
                 <li><a href="#passes">🎫 티켓</a></li>
                 <li><a href="#rentals">🚲 자전거 대여</a></li>
                 <li><a href="#clothing">👕 복장 가이드</a></li>
+                <li><a href="actual_expenses.html" class="expense-link">💰 실제 비용</a></li>
             </ul>
         </div>
     </nav>
     <main>
         <div class="container">
+            <section id="expense-overview">
+                <h2>💰 실제 사용 비용 요약</h2>
+                <div class="expense-summary">
+                    <h3>2024년 8월 29일 실제 사용 비용</h3>
+                    <div class="expense-amount">CAD 340.84</div>
+                    <p>약 ₩341,000</p>
+                    
+                    <div class="expense-breakdown">
+                        <div class="expense-item">
+                            <strong>🛡️ 보호장비 렌탈</strong>
+                            <div>CAD 189.00</div>
+                            <small>헬멧, 장갑, 무릎, 팔꿈치 보호대</small>
+                        </div>
+                        <div class="expense-item">
+                            <strong>🎫 스키스쿨 반나절권</strong>
+                            <div>CAD 94.50</div>
+                            <small>3:30-7:30 이용권</small>
+                        </div>
+                        <div class="expense-item">
+                            <strong>🛍️ 기념품</strong>
+                            <div>CAD 50.00</div>
+                            <small>모자 + 스티커</small>
+                        </div>
+                        <div class="expense-item">
+                            <strong>🅿️ 주차비</strong>
+                            <div>CAD 7.34</div>
+                            <small>데이롯 주차장</small>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <a href="actual_expenses.html" class="expense-link" style="font-size: 1.1rem; padding: 0.8rem 1.5rem;">
+                            📊 상세 비용 내역 보기
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
             <section id="parking">
                 <h2>🚗 주차 정보</h2>
                 <div class="info-card">
@@ -62,6 +109,7 @@
                     <strong>💡 주차 팁:</strong> 주말과 휴가 시즌에는 오전 8시 이전 도착을 권장합니다. Whistler Village Gondola 주차장이 가장 편리합니다.
                 </div>
             </section>
+            
             <section id="passes">
                 <h2>🎫 티켓 정보</h2>
                 <div class="info-card">
@@ -77,6 +125,7 @@
                     <strong>⚠️ 주의:</strong> 반나절권은 시즌에 따라 제공되지 않을 수 있습니다. 사전에 확인하시기 바랍니다.
                 </div>
             </section>
+            
             <section id="rentals">
                 <h2>🚲 자전거 대여</h2>
                 <div class="info-card">
@@ -97,6 +146,7 @@
                     </table>
                 </div>
             </section>
+            
             <section id="clothing">
                 <h2>👕 복장 가이드</h2>
                 <div class="info-card">
@@ -122,6 +172,10 @@
     <footer>
         <div class="container">
             <p>&copy; 2024 Whistler 마운틴 바이킹 가이드. 모든 정보는 참고용이며, 정확한 정보는 공식 웹사이트를 확인하세요.</p>
+            <p style="margin-top: 1rem; opacity: 0.8;">
+                <a href="actual_expenses.html" style="color: #20c997; text-decoration: none;">💰 실제 사용 비용 내역</a> | 
+                <a href="https://canada.maslabs.kr/" style="color: #20c997; text-decoration: none;">🏠 메인 페이지</a>
+            </p>
         </div>
     </footer>
 </body>
